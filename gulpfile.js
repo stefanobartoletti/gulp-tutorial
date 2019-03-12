@@ -1,4 +1,4 @@
-// gulp requirements
+// SECTION Gulp requirements
 
 var gulp = require('gulp');
 var rename = require('gulp-rename');
@@ -12,7 +12,7 @@ var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
 
 
-// variables
+// SECTION Variables
 
 var styleSRC = 'src/sass/style.scss';
 var styleDIST = 'dist/css/';
@@ -24,7 +24,8 @@ var scriptDIST = 'dist/js/';
 var scriptWatch = 'src/js/**/*.js';
 var scriptFILES = [scriptSRC];
 
-// CSS
+
+// SECTION CSS
 
 gulp.task('style', function () {
 
@@ -53,7 +54,8 @@ gulp.task('style', function () {
 
 });
 
-// JS
+
+// SECTION JS
 
 gulp.task('script', function () {
 
@@ -91,11 +93,13 @@ gulp.task('script', function () {
 
 });
 
-// default
+
+// SECTION Default
 
 gulp.task('default', ['style', 'script']);
 
-// watch
+
+// SECTION Watch
 
 gulp.task('watch', ['default'], function () {
     gulp.watch(styleWatch, ['style']);
