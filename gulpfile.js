@@ -27,7 +27,7 @@ var scriptFILES = [scriptSRC];
 
 // SECTION CSS
 
-gulp.task('style', function () {
+function css(done) {
 
     gulp.src(styleSRC)
 
@@ -50,14 +50,16 @@ gulp.task('style', function () {
 
         .pipe(sourcemaps.write('./'))
 
-        .pipe(gulp.dest(styleDIST));
+        .pipe(gulp.dest(styleDIST))
 
-});
+    done();
+
+};
 
 
 // SECTION JS
 
-gulp.task('script', function () {
+function js(done) {
 
     scriptFILES.map(function (entry) {
 
@@ -66,7 +68,7 @@ gulp.task('script', function () {
             })
 
             .transform(babelify, {
-                presets: ['env']
+                presets: ['@babel/preset-env']
             })
 
             .bundle()
@@ -88,20 +90,31 @@ gulp.task('script', function () {
             .pipe(sourcemaps.write('./'))
 
             .pipe(gulp.dest(scriptDIST))
-
+        
     });
 
-});
+    done();
+
+};
+
+
+function watchfiles () {
+
+    gulp.watch(styleWatch, css)
+    gulp.watch(scriptWatch, js)
+    
+}
 
 
 // SECTION Default
 
-gulp.task('default', ['style', 'script']);
+gulp.task('css', css);
+gulp.task('js', js);
+
+gulp.task('default', gulp.parallel(css, js));
 
 
 // SECTION Watch
 
-gulp.task('watch', ['default'], function () {
-    gulp.watch(styleWatch, ['style']);
-    gulp.watch(scriptWatch, ['script']);
-});
+gulp.task('watch', watchfiles);
+
