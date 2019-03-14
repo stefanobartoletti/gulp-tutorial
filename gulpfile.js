@@ -1,6 +1,7 @@
 // SECTION Gulp requirements
 
-var gulp = require('gulp');
+const { src, dest, task, watch, series, parallel } = require('gulp');
+
 var rename = require('gulp-rename');
 var sass = require('gulp-sass');
 var uglify = require('gulp-uglify');
@@ -29,7 +30,7 @@ var scriptFILES = [scriptSRC];
 
 function css(done) {
 
-    gulp.src(styleSRC)
+    src(styleSRC)
 
         .pipe(sourcemaps.init())
 
@@ -50,7 +51,7 @@ function css(done) {
 
         .pipe(sourcemaps.write('./'))
 
-        .pipe(gulp.dest(styleDIST))
+        .pipe(dest(styleDIST))
 
     done();
 
@@ -89,7 +90,7 @@ function js(done) {
 
             .pipe(sourcemaps.write('./'))
 
-            .pipe(gulp.dest(scriptDIST))
+            .pipe(dest(scriptDIST))
         
     });
 
@@ -100,21 +101,21 @@ function js(done) {
 
 function watchfiles () {
 
-    gulp.watch(styleWatch, css)
-    gulp.watch(scriptWatch, js)
+    watch(styleWatch, css)
+    watch(scriptWatch, js)
     
 }
 
 
 // SECTION Default
 
-gulp.task('css', css);
-gulp.task('js', js);
+task('css', css);
+task('js', js);
 
-gulp.task('default', gulp.parallel(css, js));
+task('default', parallel(css, js));
 
 
 // SECTION Watch
 
-gulp.task('watch', watchfiles);
+task('watch', watchfiles);
 
